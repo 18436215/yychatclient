@@ -2,7 +2,7 @@ package com.yychat.model;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable{//序列化接口
 	private String userName;
 	private String passWord;
 	

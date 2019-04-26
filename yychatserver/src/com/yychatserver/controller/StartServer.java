@@ -11,9 +11,10 @@ import com.yychat.model.Message;
 import com.yychat.model.User;
 
 public class StartServer {
-	public static HashMap hsmSocket=new HashMap<String,Socket>();
+	public static HashMap hmSocket=new HashMap<String,Socket>();
 	
 	ServerSocket ss;
+	Socket s;
 	String userName;
 	String passWord;
 	public StartServer(){
@@ -21,7 +22,7 @@ public class StartServer {
 			ss= new ServerSocket(3456);
 			System.out.println("服务器已经启动，监听3456端口");
 			while(true){//?Thread多线程
-				Socket s= ss.accept();//接收客户端连接请求
+				s= ss.accept();//接收客户端连接请求
 				System.out.println("连接成功:"+s);
 				
 				//接收User对象
@@ -45,12 +46,11 @@ public class StartServer {
 				ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
 				oos.writeObject(mess);
 				
-				//应该新建一个接收线程
-				if(passWord.equals("123456"))
-				{
-					hsmSocket.put(userName,s);
-				new ServerReceiverThread(s).start();//就绪
-				}
+				//在这里接收聊天信息，可不可以？不可以，应该新建一个接收线程
+				if(passWord.equals("123456")){
+					hmSocket.put(userName, s);
+					new ServerReceiverThread(s).start();//就绪,每个用户都有一个对应的服务线程
+				}				
 			}
 			
 		} catch (IOException e) {

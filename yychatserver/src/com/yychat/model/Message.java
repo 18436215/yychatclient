@@ -2,7 +2,7 @@ package com.yychat.model;
 
 import java.io.Serializable;
 
-public class Message implements Serializable,MessageType{//ÀàµÄµ¥¼Ì³Ð
+public class Message implements Serializable,MessageType{
 	private String sender;
 	private String receiver;
 	private String content;	
