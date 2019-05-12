@@ -11,10 +11,9 @@ import com.yychat.model.User;
 
 public class ClientConnect {
 	
-	//public static Socket s;//静态成员，类变量
-	public Socket s;
+	public  Socket s;//静态成员，类变量
 	
-	public static HashMap hmSocket=new HashMap<String,Socket>();
+	public static HashMap hsmSocket=new HashMap<String,Socket>();
 	
 	public ClientConnect(){
 		try {
@@ -35,18 +34,20 @@ public class ClientConnect {
 		Message mess=null;
 		try {
 			oos=new ObjectOutputStream(s.getOutputStream());
-			oos.writeObject(user);			
+			oos.writeObject(user);
+			
+			
 			
 			//接收验证通过的mess
 			ois=new ObjectInputStream(s.getInputStream());
 			mess=(Message)ois.readObject();		
 			
 			if(mess.getMessageType().equals(Message.message_LoginSuccess)){
-				loginSuccess=true;
-				System.out.println(user.getUserName()+" 登录成功！");
-				hmSocket.put(user.getUserName(), s);
-				new ClientReceiverThread(s).start();
-			}
+				   loginSuccess=true;
+				   System.out.println(user.getUserName()+"登录成功");
+				   hsmSocket.put(user.getUserName(),s);
+				   new ClientReceiverThread(s).start();
+				}
 			
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();

@@ -17,7 +17,6 @@ import com.yychatclient.controller.ClientConnect;
 
 public class ClientLogin extends JFrame implements ActionListener{//类名：ClientLogin，模板，对象的模板
 	public static HashMap hmFriendlist=new HashMap<String,FriendList>();
-	
 	//定义北部组件
 	JLabel jlbl1;//定义标签
 	
@@ -83,7 +82,7 @@ public class ClientLogin extends JFrame implements ActionListener{//类名：Client
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==jb1) {
 			String userName = jtf1.getText().trim();
-			String passWord=new String(jpf1.getPassword());//把密码转换成字符串
+			String passWord=new String(jpf1.getPassword());
 			//创建User对像
 			User user=new User();//对象放在堆内存，引用变量放在栈内存
 			user.setUserName(userName);
@@ -91,28 +90,25 @@ public class ClientLogin extends JFrame implements ActionListener{//类名：Client
 			
 			boolean loginSuccess=new ClientConnect().loginValidate(user);
 			if(loginSuccess){
-				//保存FriendList对象
-				FriendList friendList=new FriendList(userName);
+				//new FriendList(userName);
+				FriendList friendList =new FriendList(userName);
 				hmFriendlist.put(userName, friendList);
-				
-				
-				//第1步：向服务器发送获取在线用户信息的请求（Message）,类型：message_RequestOnlineFriend
+				//第一步：向服务器发送获取在线用户信息的请求（Message）
 				Message mess=new Message();
 				mess.setSender(userName);
 				mess.setReceiver("Server");
-				mess.setMessageType(Message.message_RequestOnlineFriend);//请求获得服务器在线好友信息
-				Socket s=(Socket)ClientConnect.hmSocket.get(userName);
+				mess.setMessageType(Message.message_RequestOnlineFriend);
+				Socket s=(Socket)ClientConnect.hsmSocket.get(userName);
 				ObjectOutputStream oos;
-				try {
+				try{
 					oos=new ObjectOutputStream(s.getOutputStream());
 					oos.writeObject(mess);
-				} catch (IOException e1) {
+				}catch(IOException e1){
 					e1.printStackTrace();
-				}				
-				
+				}
 				this.dispose();
 			}else {
-				JOptionPane.showMessageDialog(this,"密码错误");
+				JOptionPane.showMessageDialog(this,"旺旺没想到");
 			}			
 		}			
 		
